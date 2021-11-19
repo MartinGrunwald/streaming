@@ -17,9 +17,9 @@ async function runPipeline() {
         host: 'localhost',
         database: 'postgres',
         password: 'postgres',
-        port: 54321,
+        port: 5432,
       })
-//await client.connect()
+
 //pipe 1,000,000 rows to stdout without blowing up your memory usage
 pool.connect((err, client, done) => {
 
