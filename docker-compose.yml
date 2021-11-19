@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+  kms:
+    image: 'nsmithuk/local-kms'
+    container_name: streaming-network-kms
+    volumes:
+      - ./kms_local:/init
+    ports:
+      - '4096:8080'
+    networks:
+      - streaming-network
+    environment:
+      AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+      AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      KMS_REGION: ca-central-1
+      KMS_ACCOUNT_ID: 111122223333
+
+  database:
+    image: 'postgres:11.1-alpine'
+    container_name: streaming-network-db
+    volumes:
+      - ./.local_data/postgres:/var/lib/postgresql/data
+    ports:
+      - '54321:5432'
+    networks:
+      - streaming-network
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      DB_HOST: localhost
+
+networks:
+  streaming-network:
